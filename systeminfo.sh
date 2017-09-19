@@ -284,7 +284,7 @@ Io_check(){
     [ "`echo $io3 | awk 'NR==1 {print $2}'`" == "GB/s" ] && ioraw3=$( awk 'BEGIN{print '$ioraw3' * 1024}' )
     ioall=$( awk 'BEGIN{print '$ioraw1' + '$ioraw2' + '$ioraw3'}' )
     ioavg=$( awk 'BEGIN{printf "%.1f", '$ioall' / 3}' )
-    printf "%-25s %-40s\n"   "Average I/O speed"    "`Color_str "green" "$ioavg" MB/s"`"
+    printf "%-25s %-40s\n"   "Average I/O speed"    "`Color_str "green" "$ioavg" MB/s`"
 }
 
 Check(){
