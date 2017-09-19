@@ -232,6 +232,10 @@ calc_disk() {
     echo ${total_size}
 }
 
+io_test() {
+    (LANG=C dd if=/dev/zero of=test_$$ bs=64k count=16k conv=fdatasync && rm -f test_$$ ) 2>&1 | awk -F, '{io=$NF} END { print io}' | sed 's/^[ \t]*//;s/[ \t]*$//'
+}
+
 Sys_check(){
     cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
@@ -265,6 +269,23 @@ Sys_check(){
     printf "%-25s %-40s\n"  "Kernel"                  "`Color_str "green" "$kern"`"
 }
 
+Io_info(){
+    io1=$( io_test )
+    printf "%-25s %-40s\n"  "I/O speed(1st run)"   "`Color_str "green" $io1"`"
+    io2=$( io_test )
+    printf "%-25s %-40s\n"  "I/O speed(2nd run)"   "`Color_str "green" $io2"`"
+    io3=$( io_test )
+    printf "%-25s %-40s\n"  "I/O speed(3rd run)"   "`Color_str "green" $io3"`"
+    ioraw1=$( echo $io1 | awk 'NR==1 {print $1}' )
+    [ "`echo $io1 | awk 'NR==1 {print $2}'`" == "GB/s" ] && ioraw1=$( awk 'BEGIN{print '$ioraw1' * 1024}' )
+    ioraw2=$( echo $io2 | awk 'NR==1 {print $1}' )
+    [ "`echo $io2 | awk 'NR==1 {print $2}'`" == "GB/s" ] && ioraw2=$( awk 'BEGIN{print '$ioraw2' * 1024}' )
+    ioraw3=$( echo $io3 | awk 'NR==1 {print $1}' )
+    [ "`echo $io3 | awk 'NR==1 {print $2}'`" == "GB/s" ] && ioraw3=$( awk 'BEGIN{print '$ioraw3' * 1024}' )
+    ioall=$( awk 'BEGIN{print '$ioraw1' + '$ioraw2' + '$ioraw3'}' )
+    ioavg=$( awk 'BEGIN{printf "%.1f", '$ioall' / 3}' )
+    printf "%-25s %-40s\n"   "Average I/O speed"    "`Color_str "green" $ioavg MB/s"`"
+}
 
 Check(){
 echo '-------------------------- Hardware Info. ----------------------------'
