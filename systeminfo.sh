@@ -269,7 +269,7 @@ Sys_check(){
     printf "%-25s %-40s\n"  "Kernel"                  "`Color_str "green" "$kern"`"
 }
 
-Io_info(){
+Io_check(){
     io1=$( io_test )
     printf "%-25s %-40s\n"  "I/O speed(1st run)"   "`Color_str "green" $io1"`"
     io2=$( io_test )
@@ -297,6 +297,8 @@ echo '-------------------------- Iptable Info.  ----------------------------'
 Iptable_check
 echo '-------------------------- System Info.   ----------------------------'
 Sys_check
+echo '-------------------------- I/O Info.      ----------------------------'
+Io_check
 }
 
 Check
