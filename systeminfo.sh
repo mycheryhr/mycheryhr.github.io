@@ -256,6 +256,7 @@ Sys_check(){
     disk_total_size=$( calc_disk ${disk_size1[@]} )
     disk_used_size=$( calc_disk ${disk_size2[@]} )
     
+    site=`hostname`
     NET_CARD=`ip addr |awk -F ": " '{print $2}'| grep -vE "^$|docker|lo"`
     for i in $NET_CARD; do 
         LAN_IP=`ifconfig $i|grep inet|grep -v inet6| awk '{print $2}'`;
@@ -263,7 +264,7 @@ Sys_check(){
     WAN_IP=`wget -qO - ifconfig.co`
 
     printf "%-25s %-40s\n"  "CPU model"               "`Color_str "green" "$cname"`"
-    printf "%-25s %-40s\n"  "hostname"                "`Color_str "green"  hostname`"
+    printf "%-25s %-40s\n"  "hostname"                "`Color_str "green" "$site"`"
     printf "%-25s %-40s\n"  "WAN_IP"                  "`Color_str "green" "$WAN_IP"`"
     printf "%-25s %-40s\n"  "LAN_IP"                  "`Color_str "green" "$LAN_IP"`"
     printf "%-25s %-40s\n"  "Number of cores"         "`Color_str "green" "$cores"`"
