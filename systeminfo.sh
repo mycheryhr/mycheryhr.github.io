@@ -298,7 +298,7 @@ Io_check(){
 }
 
 Port_check(){
-    Check=(`netstat -lntp|awk '/^tcp/{split($4,Port,":");split($7,Name,"[/:]");print Name[2]":"Port[length(Port)]}'|sort -u`)
+    Check=(`netstat -lntp|awk '/^tcp/{split($4,Port,":");split($7,Name,"[/:]");print Name[2]Name[3]":"Port[length(Port)]}'|sort -u`)
     if [ -z "$Check" ];then
             exit
     else
