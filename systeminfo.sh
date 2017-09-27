@@ -297,6 +297,21 @@ Io_check(){
     printf "%-25s %-40s\n"   "Average I/O speed"    "`Color_str "green" "$ioavg"MB/s`"
 }
 
+Port_check(){
+    Check=(`netstat -lntp|awk '/^tcp/{split($4,Port,":");split($7,Name,"[/:]");print Name[2]":"Port[length(Port)]}'|sort -u`)
+    if [ -z "$Check" ];then
+            exit
+    else
+            length=${#Check[@]}
+    fi
+    for((i=0;i<$length;i++))
+    do
+        Server=`echo ${Check[$i]}|cut -d: -f1`
+        Port=`echo ${Check[$i]}|cut -d: -f2`
+        printf "%-25s %-40s\n"  "$Server"                "`Color_str "green" "$Port"`"
+    done
+}
+
 Check(){
 type iostat >/dev/null 2>&1 || (yum -y install sysstat >/dev/null 2>&1)
 echo '-------------------------- Hardware Info. ----------------------------'
@@ -310,6 +325,8 @@ echo '-------------------------- System Info.   ----------------------------'
 Sys_check
 #echo '-------------------------- I/O Info.      ----------------------------'
 #Io_check
+echo '-------------------------- Port Info.      ----------------------------'
+Port_check
 }
 
 Check
