@@ -298,6 +298,7 @@ Io_check(){
 }
 
 Check(){
+type iostat >/dev/null 2>&1 || (yum -y install sysstat >/dev/null 2>&1)
 echo '-------------------------- Hardware Info. ----------------------------'
 Load_check 
 Disk_read_only_check 
