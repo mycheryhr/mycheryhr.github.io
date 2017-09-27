@@ -257,7 +257,7 @@ Sys_check(){
     disk_used_size=$( calc_disk ${disk_size2[@]} )
     
     site=`hostname`
-    NET_CARD=`ip addr |awk -F ": " '{print $2}'| grep -vE "^$|docker|lo|veth"`
+    NET_CARD=`ip addr |awk -F ": " '{print $2}'| grep -vE "^$|docker|lo|ve"`
     for i in $NET_CARD; do 
         LAN_IP=`ifconfig $i|grep inet|grep -v inet6| awk '{print $2}'`;
     done
