@@ -263,7 +263,7 @@ Sys_check(){
     WAN_IP=`wget -qO - ifconfig.co`
 
     printf "%-25s %-40s\n"  "CPU model"               "`Color_str "green" "$cname"`"
-    printf "%-25s %-40s\n"  "hostname"                "`Color_str "green" "$hostname"`"
+    printf "%-25s %-40s\n"  "hostname"                "`Color_str "green"  hostname`"
     printf "%-25s %-40s\n"  "WAN_IP"                  "`Color_str "green" "$WAN_IP"`"
     printf "%-25s %-40s\n"  "LAN_IP"                  "`Color_str "green" "$LAN_IP"`"
     printf "%-25s %-40s\n"  "Number of cores"         "`Color_str "green" "$cores"`"
