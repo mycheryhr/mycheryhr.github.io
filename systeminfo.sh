@@ -298,17 +298,19 @@ Io_check(){
 }
 
 Port_check(){
-    Check=(`netstat -lntp|awk '/^tcp/{split($4,Port,":");split($7,Name,"[/:]");print Name[2]Name[3]":"Port[length(Port)]}'|sort -u`)
+    Check=(`netstat -lntp|awk '/^tcp/{split($4,Port,":");split($7,Name,"[/:]");print Name[2]Name[3]":"Port[length(Port)]":"Name[1]}'|sort -u`)
     if [ -z "$Check" ];then
             exit
     else
             length=${#Check[@]}
     fi
+    printf "%-25s %-40s %-55s \n"  "[Program]"  "[Port]"  "[Pid]"
     for((i=0;i<$length;i++))
     do
         Server=`echo ${Check[$i]}|cut -d: -f1`
         Port=`echo ${Check[$i]}|cut -d: -f2`
-        printf "%-25s %-40s\n"  "$Server"                "`Color_str "green" "$Port"`"
+        Pid=`echo ${Check[$i]}|cut -d: -f3`
+        printf "%-25s %-40s %-55s \n"  "$Server"  "`Color_str "green" "$Port"`"  "`Color_str "blue" "$Pid"`"
     done
 }
 
