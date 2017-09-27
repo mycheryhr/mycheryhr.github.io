@@ -304,7 +304,7 @@ Port_check(){
     else
             length=${#Check[@]}
     fi
-    printf "%-25s %-40s %-55s \n"  "[Program]"  "[Port]"  "[Pid]"
+    printf "%-25s %-40s %-55s \n"  "[Program]"  "`Color_str "Port"`"  "`Color_str "Pid"`"
     for((i=0;i<$length;i++))
     do
         Server=`echo ${Check[$i]}|cut -d: -f1`
