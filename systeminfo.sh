@@ -209,12 +209,12 @@ Show_result(){
 Iptable_check(){
     type systemctl >/dev/null 2>&1
     if [[ $? = 0 ]]; then
-        type iptables >/dev/null 2>&1 || (yum -y install iptables-services >/dev/null 2>&1)
-        systemctl status iptables |grep -q "active"
+        rpm -qa | grep iptables.services >/dev/null 2>&1 || (yum -y install iptables-services >/dev/null 2>&1)
+        systemctl status iptables |grep -qw "active"
         local Ret_num="$?"
         Show_result "Iptable" "$Ret_num"
 
-        systemctl status firewalld |grep -q "active"
+        systemctl status firewalld |grep -qw "active"
         local Ret_num="$?"
         Show_result "Firewalld" "$Ret_num"
     else
