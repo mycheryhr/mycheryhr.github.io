@@ -207,9 +207,21 @@ Show_result(){
 
 ### 防火墙检测
 Iptable_check(){
-    iptables -L -n|grep -q "Chain INPUT (policy DROP)"
-    local Ret_num="$?"
-    Show_result "Iptable" "$Ret_num"
+    type systemctl >/dev/null 2>&1
+    if [[ $? = 0 ]]; then
+        systemctl status iptables |grep -q "active"
+        local Ret_num="$?"
+        Show_result "Iptable" "$Ret_num"
+
+        systemctl status firewalld |grep -q "active"
+        local Ret_num="$?"
+        Show_result "Firewalld" "$Ret_num"
+    else
+        iptables -L -n|grep -q "Chain INPUT (policy DROP)"
+        local Ret_num="$?"
+        Show_result "Iptable" "$Ret_num"
+
+    fi
 }
 
 get_opsy() {
