@@ -209,6 +209,7 @@ Show_result(){
 Iptable_check(){
     type systemctl >/dev/null 2>&1
     if [[ $? = 0 ]]; then
+        type iptables >/dev/null 2>&1 || (yum -y install iptables-services >/dev/null 2>&1)
         systemctl status iptables |grep -q "active"
         local Ret_num="$?"
         Show_result "Iptable" "$Ret_num"
