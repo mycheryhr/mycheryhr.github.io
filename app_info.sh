@@ -18,7 +18,7 @@ Check(){
     echo -e ""
     echo -e "\033[31m******************** APP INFO. ********************\033[0m" 
     #ls -l /data/www/ |grep "^d" |grep -v bak |awk '{print $9}' 
-    echo -e "\033[31m`ls -l /data/www |grep ^d |awk '{{printf "%s ",$9}}' |grep "^d" |grep -v bak |sort -n'`\033[0m"
+    echo -e "\033[31m`ls -l /data/www |grep ^d |awk '{{printf "%s ",$9}}' |grep -v bak |sort -n'`\033[0m"
 }
 
 Check
