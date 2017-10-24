@@ -17,7 +17,7 @@ Check(){
     welcome_show
     echo -e ""
     echo -e "\033[31m******************** APP INFO. ********************\033[0m" 
-    ls -l /data/www/ |grep "^d" |awk '{print $9}' 
+    ls -l /data/www/ |grep "^d" |grep -v bak |awk '{print $9}' 
 }
 
 Check
