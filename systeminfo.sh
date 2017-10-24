@@ -275,8 +275,12 @@ Sys_check(){
         LAN_IP=`ifconfig $i|grep inet|grep -v inet6| awk '{print $2}'`;
     done
     WAN_IP=`wget -qO - ifconfig.co`
+    
+    processes=`ps aux | wc -l`
+    users=`users | wc -w`
+    USER=`whoami`
 
-    printf "%-25s %-40s\n"  "hostname"                "`Color_str "green" "$site"`"
+    printf "%-25s %-40s\n"  "Hostname"                "`Color_str "green" "$site"`"
     printf "%-25s %-40s\n"  "WAN_IP"                  "`Color_str "green" "$WAN_IP"`"
     printf "%-25s %-40s\n"  "LAN_IP"                  "`Color_str "green" "$LAN_IP"`"
     printf "%-25s %-40s\n"  "CPU model"               "`Color_str "green" "$cname"`"
@@ -290,6 +294,9 @@ Sys_check(){
     printf "%-25s %-40s\n"  "OS"                      "`Color_str "green" "$opsy"`"
     printf "%-25s %-40s\n"  "Arch"                    "`Color_str "green" "$arch ($lbit Bit)"`"
     printf "%-25s %-40s\n"  "Kernel"                  "`Color_str "green" "$kern"`"
+    printf "%-25s %-40s\n"  "Processes"               "`Color_str "green" "$processes"`"
+    printf "%-25s %-40s\n"  "Login Users"             "`Color_str "green" "$users"`"
+    printf "%-25s %-40s\n"  "Users"                   "`Color_str "green" "$USER"`"
 }
 
 Io_check(){
