@@ -129,6 +129,14 @@ Disk_read_only_check(){
     rm $Tmp_file -f &> /dev/null
 }
 
+User_check(){
+    users=`users | wc -w`
+    USER=`whoami`
+    printf "%-10s%12s%25s | " "User-Info" "Login:" `Color_str "green" "$users"`
+    printf "%12s%25s\n" "Users:" `Color_str "green" "$USER"`
+}
+
+
 Network_check(){
     local Eth_interface=`ls /etc/sysconfig/network-scripts/ifcfg-eth[0]|\
         grep -oP "eth\d"`
@@ -277,8 +285,6 @@ Sys_check(){
     WAN_IP=`wget -qO - ifconfig.co`
     
     processes=`ps aux | wc -l`
-    users=`users | wc -w`
-    USER=`whoami`
 
     printf "%-25s %-40s\n"  "Hostname"                "`Color_str "green" "$site"`"
     printf "%-25s %-40s\n"  "WAN_IP"                  "`Color_str "green" "$WAN_IP"`"
@@ -295,8 +301,6 @@ Sys_check(){
     printf "%-25s %-40s\n"  "Arch"                    "`Color_str "green" "$arch ($lbit Bit)"`"
     printf "%-25s %-40s\n"  "Kernel"                  "`Color_str "green" "$kern"`"
     printf "%-25s %-40s\n"  "Processes"               "`Color_str "green" "$processes"`"
-    printf "%-25s %-40s\n"  "Login Users"             "`Color_str "green" "$users"`"
-    printf "%-25s %-40s\n"  "Users"                   "`Color_str "green" "$USER"`"
 }
 
 Io_check(){
@@ -337,6 +341,7 @@ Port_check(){
 Check(){
 type iostat >/dev/null 2>&1 || (yum -y install sysstat >/dev/null 2>&1)
 echo '-------------------------- Hardware Info. ----------------------------'
+User_check
 Load_check 
 Disk_read_only_check 
 #echo '-------------------------- Network  Info.  ---------------------------'
