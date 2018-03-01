@@ -282,7 +282,7 @@ Sys_check(){
     for i in $NET_CARD; do 
         LAN_IP=`ifconfig $i|grep inet|grep -v inet6| awk '{print $2}'`;
     done
-    WAN_IP=`wget -qO - ifconfig.co`
+    WAN_IP=`curl ip.cip.cc`
     
     processes=`ps aux | wc -l`
 
