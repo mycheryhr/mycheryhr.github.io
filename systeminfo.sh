@@ -262,6 +262,7 @@ Sys_check(){
     cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     realM=$(dmidecode --type memory | grep " MB" | awk '{sum += $2; a=sum/1024} END {print a}')
+    realDisk=$(lsblk  -l | grep 'disk' |awk -F " " '{print $1 " " $4}' | grep -E "G|M" | xargs)
     tram=$( free -m | awk '/Mem/ {print $2}' )
     uram=$( free -m | awk '/Mem/ {print $3}' )
     swap=$( free -m | awk '/Swap/ {print $2}' )
@@ -295,6 +296,7 @@ Sys_check(){
     printf "%-25s %-40s\n"  "CPU frequency"           "`Color_str "green" "$freq MHz"`"
     printf "%-25s %-40s\n"  "Total size of Disk"      "`Color_str "green" "$disk_total_size GB ($disk_used_size GB Used)"`"
     printf "%-25s %-40s\n"  "Physical Mem Size"       "`Color_str "green" "$realM GB"`"
+    printf "%-25s %-40s\n"  "Physical Disk Size"      "`Color_str "green" "$realDisk"`"
     printf "%-25s %-40s\n"  "Total amount of Mem"     "`Color_str "green" "$tram MB ($uram MB Used)"`"
     printf "%-25s %-40s\n"  "Total amount of Swap"    "`Color_str "green" "$swap MB ($uswap MB Used)"`"
     printf "%-25s %-40s\n"  "System uptime"           "`Color_str "green" "$up"`"
