@@ -343,6 +343,7 @@ Port_check(){
 Check(){
 type iostat >/dev/null 2>&1 || (yum -y install sysstat >/dev/null 2>&1)
 type netstat >/dev/null 2>&1 || (yum -y install net-tools >/dev/null 2>&1)
+type dmidecode >/dev/null 2>&1 || (yum -y install dmidecode >/dev/null 2>&1)
 echo '-------------------------- Hardware Info. ----------------------------'
 User_check
 Load_check 
