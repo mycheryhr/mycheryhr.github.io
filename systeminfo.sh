@@ -281,7 +281,7 @@ Sys_check(){
     site=`hostname`
     NET_CARD=`ip addr |awk -F ": " '{print $2}'| grep -vE "^$|docker|lo|ve"`
     for i in $NET_CARD; do 
-        LAN_IP=`ifconfig $i|grep inet|grep -v inet6| awk '{print $2}'`;
+        LAN_IP=`python -c "import socket;print([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])"`;
     done
     WAN_IP=`curl -s ip.cip.cc`
     
