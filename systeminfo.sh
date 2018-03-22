@@ -261,7 +261,7 @@ Sys_check(){
     cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
-    realM=$(dmidecode --type memory | grep " MB" | awk '{sum += $2; a=sum/1024} END {print a}') "GB"
+    realM=$(dmidecode --type memory | grep " MB" | awk '{sum += $2; a=sum/1024} END {print a}')
     tram=$( free -m | awk '/Mem/ {print $2}' )
     uram=$( free -m | awk '/Mem/ {print $3}' )
     swap=$( free -m | awk '/Swap/ {print $2}' )
