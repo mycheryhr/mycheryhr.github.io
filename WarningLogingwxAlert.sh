@@ -61,7 +61,7 @@ function body() {
     printf '}\n'
 }
 
-if [[ -n ${SSH_CLIENT%% *} ]];then
+if [[ `who |wc -l` -gt 0 ]];then
     eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=${SSH_CLIENT%% *}" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
     message="登入者IP地址：${SSH_CLIENT%% *}\n\
 IP归属地：${country}_${area}_${region}_${city}_${isp}\n\
