@@ -61,17 +61,19 @@ function body() {
     printf '}\n'
 }
 
-if [[ `who |wc -l` -gt 0 ]];then
-    eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=${SSH_CLIENT%% *}" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
-    message="登入者IP地址：${SSH_CLIENT%% *}\n\
+if [[ `who |awk -F '[()]' '{print $2}' |wc -l` -gt 0 ]];then
+    # eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=${SSH_CLIENT%% *}" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
+    for i in `who |awk -F '[()]' '{print $2}'`; do
+        eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=$i" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
+        message="登入者IP地址：$i\n\
 IP归属地：${country}_${area}_${region}_${city}_${isp}\n\
 被登录服务器IP：$(curl -s ip.cip.cc)"
     TMP1=`mktemp`
     echo $message > $TMP1
     curl -l -H "Content-type: application/json" -X POST -d "$(body )" $PURL
     rm -f $TMP1 
+    done 
 fi
-
 
 
 
