@@ -63,7 +63,7 @@ function body() {
 
 if [[ `who |awk -F '[()]' '{print $2}' |wc -l` -gt 0 ]];then
     # eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=${SSH_CLIENT%% *}" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
-    for i in `who |awk -F '[()]' '{print $2}'`; do
+    for i in `who | awk -F '[()]' '{print $2}' | uniq `; do
         eval `/usr/bin/curl -s "http://ip.taobao.com/service/getIpInfo.php?ip=$i" | jq . | awk -F':|[ ]+|"' '$3~/^(country|area|region|city|isp)$/{print $3"="$7}'`
         message="登入者IP地址：$i\n\
 IP归属地：${country}_${area}_${region}_${city}_${isp}\n\
